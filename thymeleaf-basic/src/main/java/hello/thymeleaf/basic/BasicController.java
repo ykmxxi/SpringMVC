@@ -1,5 +1,6 @@
 package hello.thymeleaf.basic;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,6 +83,12 @@ public class BasicController {
 		return "basic/basic-objects";
 	}
 	*/
+	@GetMapping("/date")
+	public String date(Model model) {
+		model.addAttribute("localDateTime", LocalDateTime.now());
+
+		return "basic/date";
+	}
 
 	/**
 	 * Sample data
