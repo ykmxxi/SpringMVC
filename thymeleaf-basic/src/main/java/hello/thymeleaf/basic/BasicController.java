@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +58,32 @@ public class BasicController {
 	}
 
 	/**
+	 * 스프링 부트 3.0 미만 기본 객체 사용 가능
+	 */
+	@GetMapping("/basic-objects")
+	public String basicObjects(HttpSession session) {
+		session.setAttribute("sessionData", "Hello Session");
+
+		return "basic/basic-objects";
+	}
+
+	/**
+	 * 스프링 부트 3.0 이상 기본 객체 사용 불가능
+	 * 직접 model에 해당 객체를 추가해서 사용해야 함
+	 */
+	/*
+	@GetMapping("/basic-objects")
+	public String basicObjects(Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		session.setAttribute("sessionData", "Hello Session");
+		model.addAttribute("request", request);
+		model.addAttribute("response", response);
+		model.addAttribute("servletContext", request.getServletContext());
+
+		return "basic/basic-objects";
+	}
+	*/
+
+	/**
 	 * Sample data
 	 */
 	@Data
@@ -68,4 +97,11 @@ public class BasicController {
 		}
 	}
 
+	@Component("helloBean")
+	static class HelloBean {
+
+		public String hello(String data) {
+			return "Hello " + data;
+		}
+	}
 }
