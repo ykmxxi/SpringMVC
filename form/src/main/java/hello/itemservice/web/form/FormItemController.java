@@ -1,6 +1,8 @@
 package hello.itemservice.web.form;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +25,20 @@ import lombok.extern.slf4j.Slf4j;
 public class FormItemController {
 
 	private final ItemRepository itemRepository;
+
+	/**
+	 * 이 컨트롤러를 호출하면 자동으로 addAttribute()를 통해서 이 정보를 담음
+	 * model.addAttribute("regions", regions)
+	 */
+	@ModelAttribute("regions")
+	public Map<String, String> regions() {
+		Map<String, String> regions = new LinkedHashMap<>();
+		regions.put("SEOUL", "서울");
+		regions.put("BUSAN", "부산");
+		regions.put("JEJU", "제주");
+
+		return regions;
+	}
 
 	@GetMapping
 	public String items(Model model) {
@@ -47,6 +63,7 @@ public class FormItemController {
 	@PostMapping("/add")
 	public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
 		log.info("item.open={}", item.getOpen());
+		log.info("item.regions={}", item.getRegions());
 
 		Item savedItem = itemRepository.save(item);
 		redirectAttributes.addAttribute("itemId", savedItem.getId());
