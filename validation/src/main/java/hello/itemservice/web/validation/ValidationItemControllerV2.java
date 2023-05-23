@@ -189,6 +189,9 @@ public class ValidationItemControllerV2 {
 		log.info("target={}", bindingResult.getTarget());
 
 		// 검증 로직
+		// 한줄로 편리하게 공백과 빈 입력을 확인할 수 있다
+		// 단순한 공백만 처리할 수 있음
+		// ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required");
 		if (!StringUtils.hasText(item.getItemName())) {
 			bindingResult.rejectValue("itemName", "required");
 		}
